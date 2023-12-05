@@ -33,6 +33,11 @@ const UserSchema = new mongoose.Schema(
       type: Array,
       default: [],
     },
+    role: {
+      type: String,
+      enum: ['regular', 'critic', 'admin'],
+      default: 'regular',
+    },
     location: String,
     occupation: String,
     viewedProfile: Number,
