@@ -61,3 +61,21 @@ export const addRemoveFriend = async (req, res) => {
     res.status(404).json({ message: err.message });
   }
 };
+
+
+export const updateUser = async (req, res) => {
+  const { id } = req.params;
+  const updates = req.body;
+
+  try {
+    const updatedUser = await User.updateOne({ _id: id }, { $set: updates });
+
+    if (!updatedUser) {
+      return res.status(404).json({ message: "User not found." });
+    }
+
+    res.status(200).json({ message: "User updated successfully", user: updatedUser });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
