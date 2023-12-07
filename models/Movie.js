@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 const movieSchema = mongoose.Schema({
-    externalId: {
+    imdbId: {
         type: String,
         required: true,
         unique: true

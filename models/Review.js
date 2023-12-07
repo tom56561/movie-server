@@ -7,7 +7,6 @@ const reviewSchema = mongoose.Schema({
         required: true
     },
     reviewText: String,
-    rating: Number, // If you have a rating system
     createdAt: {
         type: Date,
         default: Date.now
