@@ -18,40 +18,38 @@
 ## Movie API Endpoints
 
 #### Get Movie Details
-- Endpoint: GET /movies/details/:externalId
-- Description: Retrieves detailed information about a movie.
-- Access: Public (accessible to all users, including anonymous users).
-- Parameters:
-- externalId: The unique identifier of the movie.
+- GET /details/:imdbId
+- Access: Public
+- Description: Fetches details of a movie using IMDb ID.
+- Parameters: imdbId - IMDb ID of the movie.
+
 
 
 #### Like a Movie
-- Endpoint: POST /movies/like/:externalId
-- Description: Allows a user to like a movie.
-- Access: Restricted to authenticated users with roles 'regular' or 'critic'.
-- Parameters:
-- externalId: The unique identifier of the movie.
-- Authorization: Required (Bearer Token).
+- POST /like/:imdbId
+- Access: Regular Users, Critics
+- Description: Likes a movie.
+- Parameters: imdbId - IMDb ID of the movie.
+- Authorization: Bearer Token required.
+
 #### Unlike a Movie
-- Endpoint: DELETE /movies/like/:externalId
-- Description: Allows a user to remove their like from a movie.
-- Access: Restricted to authenticated users with roles 'regular' or 'critic'.
-- Parameters:
-- externalId: The unique identifier of the movie.
-- Authorization: Required (Bearer Token).
+- DELETE /like/:imdbId
+- Access: Regular Users, Critics
+- Description: Unlikes a movie.
+- Parameters: imdbId - IMDb ID of the movie.
+- Authorization: Bearer Token required.
+
 #### Add a Movie Review
-- Endpoint: POST /movies/review/:externalId
-- Description: Allows a critic to add a review for a movie.
-- Access: Restricted to authenticated users with the 'critic' role.
-- Parameters:
-- externalId: The unique identifier of the movie.
-- Authorization: Required (Bearer Token).
-Payload: Review text and optional rating.
+- POST /review/:imdbId
+- Access: Critics
+- Description: Adds a review to a movie.
+- Parameters: imdbId - IMDb ID of the movie.
+- Body: reviewText - Text of the review.
+- Authorization: Bearer Token required.
+
 #### Remove a Movie Review
-- Endpoint: DELETE /movies/review/:externalId/:reviewId
-- Description: Allows an admin to delete a specific review from a movie.
-- Access: Restricted to authenticated users with the 'admin' role.
-- Parameters:
-- externalId: The unique identifier of the movie.
-- reviewId: The unique identifier of the review.
-- Authorization: Required (Bearer Token).
+- DELETE /review/:imdbId/:reviewId
+- Access: Admins
+- Description: Removes a specific review from a movie.
+- Parameters: imdbId - IMDb ID of the movie. reviewId - ID of the review to remove.
+- Authorization: Bearer Token required.
