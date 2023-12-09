@@ -6,19 +6,43 @@ import Review from "../models/Review.js";
 export const getMovieDetails = async (req, res) => {
     try {
         const { imdbId } = req.params;
-        let movie = await Movie.findOne({ imdbId: imdbId });
+        let movie = await Movie.findOne({ imdbId: imdbId }).populate({
+            path: 'reviews',
+            populate: {
+                path: 'userId',
+                select: 'firstName lastName picturePath -_id'
+            }
+        }).exec();
 
         if (!movie) {
+            // If the movie is not found, create a new record
             movie = new Movie({ imdbId: imdbId, likes: [], reviews: [] });
             await movie.save();
         }
 
-        // Return movie details
-        res.json(movie);
+        // Prepare the review details to include content and date
+        const reviewsWithDetails = movie.reviews.map(review => {
+            return {
+                id: review._id,
+                content: review.reviewText,
+                date: review.createdAt,
+                user: {
+                    name: review.userId.firstName + ' ' + review.userId.lastName,
+                    picturePath: review.userId.picturePath // Including picturePath
+                }
+            };
+        });
+
+        // Return movie details with full review content
+        res.json({
+            ...movie.toObject(), // Convert the mongoose document to a plain object
+            reviews: reviewsWithDetails
+        });
     } catch (err) {
         res.status(500).json({ error: err.message });
     }
 };
+
 
 export const likeMovie = async (req, res) => {
     const { imdbId } = req.params;
