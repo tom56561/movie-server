@@ -45,6 +45,7 @@ export const getMovieDetails = async (req, res) => {
   }
 };
 
+
 export const likeMovie = async (req, res) => {
     console.log("likeMovie");
   const { imdbId } = req.params;
