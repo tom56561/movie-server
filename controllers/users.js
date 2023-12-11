@@ -4,7 +4,7 @@ import User from "../models/User.js";
 export const getUser = async (req, res) => {
   try {
     const { id } = req.params;
-    const user = await User.findById(id).select('-password');;
+    const user = await User.findById(id).select("-password");
     res.status(200).json(user);
   } catch (err) {
     res.status(404).json({ message: err.message });
@@ -33,16 +33,16 @@ export const getUserFriends = async (req, res) => {
 /* UPDATE */
 export const addRemoveFriend = async (req, res) => {
   try {
-    const { id, friendId } = req.params;
-    const user = await User.findById(id);
+    const { userId, friendId } = req.params;
+    console.log(userId, friendId);
+    const user = await User.findById(userId);
     const friend = await User.findById(friendId);
-
     if (user.friends.includes(friendId)) {
       user.friends = user.friends.filter((id) => id !== friendId);
-      friend.friends = friend.friends.filter((id) => id !== id);
+      friend.friends = friend.friends.filter((id) => id !== userId);
     } else {
       user.friends.push(friendId);
-      friend.friends.push(id);
+      friend.friends.push(userId);
     }
     await user.save();
     await friend.save();
@@ -62,7 +62,6 @@ export const addRemoveFriend = async (req, res) => {
   }
 };
 
-
 export const updateUser = async (req, res) => {
   const { id } = req.params;
   const updates = req.body;
@@ -74,8 +73,25 @@ export const updateUser = async (req, res) => {
       return res.status(404).json({ message: "User not found." });
     }
 
-    res.status(200).json({ message: "User updated successfully", user: updatedUser });
+    res
+      .status(200)
+      .json({ message: "User updated successfully", user: updatedUser });
   } catch (err) {
     res.status(500).json({ message: err.message });
+  }
+};
+
+// Clear all user's friends (For testing purposes)
+export const clearAllFriends = async (req, res) => {
+  try {
+    const users = await User.find();
+    users.forEach(async (user) => {
+      user.friends = [];
+      await user.save();
+    });
+
+    res.status(200).json({ message: "Success" });
+  } catch (err) {
+    res.status(404).json({ message: err.message });
   }
 };
