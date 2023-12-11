@@ -75,7 +75,7 @@ export const updateUser = async (req, res) => {
 
     res
       .status(200)
-      .json({ message: "User updated successfully", user: updatedUser });
+      .json({ message: "User updated successfully", user: await User.findById(id) });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
