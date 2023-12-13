@@ -16,6 +16,11 @@
 - **Search Movies**: They can search and view movies but cannot like or review them.
 - **Access other profile**
 
+## Security
+
+### JWT Authentication
+![](public/assets/jwt.png)
+
 ## Endpoints
 
 ### Auth Routes
@@ -111,3 +116,16 @@
     - `reviewId` - ID of the review
   - **Authorization**: Bearer Token required
   - **Access**: Admin
+
+## Data Model
+![](public/assets/data%20model%20UML.jpg)
+
+### One-to-Many Relationships
+
+1. **Movie to Review**: One movie has many reviews.
+2. **User to Post**: A user can have many posts.
+
+### Many-to-Many Relationships
+
+1. **Movie to User (Likes)**: A movie can be liked by many users, and a user can like many movies.
+2. **User Follows User**  Users can follow multiple other users, and can be followed by multiple users.
